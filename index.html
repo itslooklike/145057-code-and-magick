@@ -33,17 +33,19 @@
 </footer>
 
 <script>
-  'use strict'
+  'use strict';
 
   var fireballSize = 22;
   var wizardSpeed = 3;
   var wizardWidth = 70;
 
-  var getWizardHeight = function () {
-    return 1.337 * wizardWidth;
+  function getWizardHeight() {
+    var wizardProportion = 1.337;
+
+    return wizardProportion * wizardWidth;
   }
 
-  var getFireballSpeed = function (left) {
+  function getFireballSpeed(left) {
     return left ? 5 : 2;
   }
 
@@ -52,7 +54,10 @@
   }
 
   function getWizardY(height) {
-    return height / 1.5;
+    var wizardShowUpScreenProportion = 2 / 3;
+    var wizardHeight = getWizardHeight();
+
+    return height * wizardShowUpScreenProportion - wizardHeight;
   }
 
 </script>
