@@ -4,47 +4,17 @@ window.renderStatistics = function (ctx, names, times) {
   var fontColorPrimary = '#000';
   var fontFamalyPrimary = '16px PT Mono';
 
-  var cloudStartX = 100;
-  var cloudStartY = 10;
-  var cloudWidth = 420;
-  var cloudHeight = 270;
-  var cloudShadowOffset = 10;
-
-  var gistoHeight = 150;
-  var gistoWidth = 40;
-  var gistoSpace = 50;
-  var gistoIndent = gistoWidth + gistoSpace;
-  var gistoMyColor = 'rgba(255, 0, 0, 1)';
-
-  var gistoPositionX = 150;
-  var gistoStatUpper = 15;
-  var gistoColumnStartPointY = 90;
-  var gistoTextStartPointY = 250;
-
-  function getMaxStatValue(stat) {
-    if (Array.isArray(stat)) {
-      var maxValue = 0;
-
-      for (var i = 0; i < stat.length; i++) {
-        if (stat[i] > maxValue) {
-          maxValue = stat[i];
-        }
-      }
-
-      return maxValue;
-    }
-  }
-
   function drawCloud(ctxL, x, y, widthL, heightL, shadow) {
+    var cloudShadowOffset = 10;
     shadow = shadow || false;
 
     function cloud(ctxR, xR, yR, widthR, heightR, colorR) {
       ctxR.fillStyle = colorR;
       ctxR.fillRect(
-        xR,
-        yR,
-        widthR,
-        heightR
+          xR,
+          yR,
+          widthR,
+          heightR
       );
     }
 
@@ -65,10 +35,10 @@ window.renderStatistics = function (ctx, names, times) {
   function drawColumn(ctxL, x, y, widthL, heightL, color) {
     ctxL.fillStyle = color;
     ctxL.fillRect(
-      x,
-      y,
-      widthL,
-      heightL
+        x,
+        y,
+        widthL,
+        heightL
     );
   }
 
@@ -79,9 +49,10 @@ window.renderStatistics = function (ctx, names, times) {
     ctxL.fillText(name, x, y);
   }
 
-  function generateColor() {
-    return (Math.random() * (256)).toFixed(0);
-  }
+  var cloudStartX = 100;
+  var cloudStartY = 10;
+  var cloudWidth = 420;
+  var cloudHeight = 270;
 
   drawCloud(ctx, cloudStartX, cloudStartY, cloudWidth, cloudHeight, true);
 
@@ -90,34 +61,45 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Ура вы победили!', 120, 40);
   ctx.fillText('Список результатов:', 120, 60);
 
-  var gistoCoefficient = gistoHeight / parseInt(getMaxStatValue(times), 10);
+  var gistoHeight = 150;
+  var gistoWidth = 40;
+  var gistoSpace = 50;
+  var gistoIndent = gistoWidth + gistoSpace;
+  var gistoMyColor = 'rgba(255, 0, 0, 1)';
 
-  for (var i = 0; i < names.length; i++) {
-    var positionX = gistoPositionX + gistoIndent * i;
-    var trimmedTime = parseInt(times[i], 10);
+  var gistoPositionX = 150;
+  var gistoStatUpper = 15;
+  var gistoColumnStartPointY = 90;
+  var gistoTextStartPointY = 250;
+
+  var gistoCoefficient = gistoHeight / Math.round(Math.max.apply(Math, times || []));
+
+  names.forEach(function (name, idx) {
+    var positionX = gistoPositionX + gistoIndent * idx;
+    var trimmedTime = Math.round(times[idx]);
     var variousHeight = gistoColumnStartPointY + gistoHeight - trimmedTime * gistoCoefficient;
 
     drawStat(
-      ctx,
-      positionX,
-      variousHeight - gistoStatUpper,
-      trimmedTime
+        ctx,
+        positionX,
+        variousHeight - gistoStatUpper,
+        trimmedTime
     );
 
     drawColumn(
-      ctx,
-      positionX,
-      variousHeight,
-      gistoWidth,
-      trimmedTime * gistoCoefficient,
-      (names[i] === 'Вы') ? gistoMyColor : 'rgba(0, 0, ' + generateColor() + ', 1)'
+        ctx,
+        positionX,
+        variousHeight,
+        gistoWidth,
+        trimmedTime * gistoCoefficient,
+        (name === 'Вы') ? gistoMyColor : 'rgba(0, 0, ' + (Math.random() * (256)).toFixed(0) + ', 1)'
     );
 
     drawName(
-      ctx,
-      positionX,
-      gistoTextStartPointY,
-      names[i]
+        ctx,
+        positionX,
+        gistoTextStartPointY,
+        name
     );
-  }
+  });
 };
