@@ -27,19 +27,19 @@ function initApplicationSettingsDialog() {
     };
 
     var escGlobalClose = function (evt) {
-      if (evt.keyCode && evt.keyCode === KEY_CODES.escape) {
+      if (evt.keyCode === KEY_CODES.escape) {
         closeDialog();
       }
     };
 
     var openSetupDialogHadler = function (evt) {
-      if (evt.keyCode && evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
+      if (evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
         openDialog();
       }
     };
 
     var closeSetupDialogHadler = function (evt) {
-      if (evt.keyCode && evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
+      if (evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
         closeDialog();
       }
     };
