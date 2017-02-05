@@ -1,6 +1,10 @@
 'use strict';
 
 window.utils = {
+  KEY_CODES: {
+    'escape': 27,
+    'enter': 13
+  },
   getRandomElement: function (arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   },
@@ -8,7 +12,7 @@ window.utils = {
     var currentValue = null;
     do {
       currentValue = this.getRandomElement(arr);
-    } while (!currentValue || currentValue === item);
+    } while (currentValue === item);
     return currentValue;
   }
 };
