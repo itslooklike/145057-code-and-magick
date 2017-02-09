@@ -3,11 +3,6 @@
 function initApplicationSettingsDialog() {
 
   function dialogControl() {
-    var KEY_CODES = {
-      'escape': 27,
-      'enter': 13
-    };
-
     var setup = document.querySelector('.setup');
     var setupIcon = document.querySelector('.setup-open-icon');
     var setupOpen = document.querySelector('.setup-open');
@@ -27,19 +22,20 @@ function initApplicationSettingsDialog() {
     };
 
     var escGlobalClose = function (evt) {
-      if (evt.keyCode === KEY_CODES.escape) {
+      if (evt.keyCode === window.utils.KEY_CODES.escape) {
         closeDialog();
       }
     };
 
     var openSetupDialogHadler = function (evt) {
-      if (evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
+      if (evt.keyCode === window.utils.KEY_CODES.enter || evt.type === 'click') {
         openDialog();
       }
     };
 
     var closeSetupDialogHadler = function (evt) {
-      if (evt.keyCode === KEY_CODES.enter || evt.type === 'click') {
+      if (evt.keyCode === window.utils.KEY_CODES.enter || evt.type === 'click') {
+        evt.preventDefault();
         closeDialog();
       }
     };
@@ -55,57 +51,41 @@ function initApplicationSettingsDialog() {
   }
 
   function wizardEditor() {
-    function wizardColorsGenerator(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-
     var setupWizardForm = document.querySelector('.setup-wizard-form');
 
     // цвет куртки
     var wizardCoat = setupWizardForm.querySelector('#wizard-coat');
-
-    wizardCoat.addEventListener('click', function wizardCoatColorChange() {
-      var wizardCoatColors = [
-        'rgb(101, 137, 164)',
-        'rgb(241, 43, 107)',
-        'rgb(146, 100, 161)',
-        'rgb(56, 159, 117)',
-        'rgb(215, 210, 55)',
-        'rgb(0, 0, 0)'
-      ];
-
-      wizardCoat.style.fill = wizardColorsGenerator(wizardCoatColors);
-    });
+    var wizardCoatColors = [
+      'rgb(101, 137, 164)',
+      'rgb(241, 43, 107)',
+      'rgb(146, 100, 161)',
+      'rgb(56, 159, 117)',
+      'rgb(215, 210, 55)',
+      'rgb(0, 0, 0)'
+    ];
+    window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
 
     // цвет глаз
     var wizardEyes = setupWizardForm.querySelector('#wizard-eyes');
-
-    wizardEyes.addEventListener('click', function wizardEyesColorChange() {
-      var wizardEyesColors = [
-        'black',
-        'red',
-        'blue',
-        'yellow',
-        'green'
-      ];
-
-      wizardEyes.style.fill = wizardColorsGenerator(wizardEyesColors);
-    });
+    var wizardEyesColors = [
+      'black',
+      'red',
+      'blue',
+      'yellow',
+      'green'
+    ];
+    window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
 
     // цвет фаерболла
     var wizardFireball = setupWizardForm.querySelector('.setup-fireball-wrap');
-
-    wizardFireball.addEventListener('click', function wizardFireballColorChange() {
-      var wizardFireballColors = [
-        '#ee4830',
-        '#30a8ee',
-        '#5ce6c0',
-        '#e848d5',
-        '#e6e848'
-      ];
-
-      wizardFireball.style.backgroundColor = wizardColorsGenerator(wizardFireballColors);
-    });
+    var wizardFireballColors = [
+      '#ee4830',
+      '#30a8ee',
+      '#5ce6c0',
+      '#e848d5',
+      '#e6e848'
+    ];
+    window.colorizeElement(wizardFireball, wizardFireballColors, 'backgroundColor');
   }
 
   dialogControl();
