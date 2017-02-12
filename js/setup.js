@@ -1,56 +1,22 @@
 'use strict';
 
-function initApplicationSettingsDialog() {
+(function () {
 
   function dialogControl() {
-    var setup = document.querySelector('.setup');
-    var setupIcon = document.querySelector('.setup-open-icon');
     var setupOpen = document.querySelector('.setup-open');
-    var setupClose = document.querySelector('.setup-close');
-    var submit = document.querySelector('.setup-submit');
-
-    var openDialog = function () {
-      setup.classList.remove('invisible');
-      setupIcon.attributes['aria-pressed'].value = 'true';
-      document.addEventListener('keydown', escGlobalClose);
-    };
-
-    var closeDialog = function () {
-      setup.classList.add('invisible');
-      setupIcon.attributes['aria-pressed'].value = 'false';
-      document.removeEventListener('keydown', escGlobalClose);
-    };
-
-    var escGlobalClose = function (evt) {
-      if (evt.keyCode === window.utils.KEY_CODES.escape) {
-        closeDialog();
-      }
-    };
 
     var openSetupDialogHadler = function (evt) {
-      if (evt.keyCode === window.utils.KEY_CODES.enter || evt.type === 'click') {
-        openDialog();
-      }
-    };
-
-    var closeSetupDialogHadler = function (evt) {
-      if (evt.keyCode === window.utils.KEY_CODES.enter || evt.type === 'click') {
-        evt.preventDefault();
-        closeDialog();
+      if (window.utils.isActivationEvent(evt)) {
+        window.enableSetup();
       }
     };
 
     setupOpen.addEventListener('click', openSetupDialogHadler);
     setupOpen.addEventListener('keydown', openSetupDialogHadler);
-
-    setupClose.addEventListener('click', closeSetupDialogHadler);
-    setupClose.addEventListener('keydown', closeSetupDialogHadler);
-
-    submit.addEventListener('click', closeSetupDialogHadler);
-    submit.addEventListener('keydown', closeSetupDialogHadler);
   }
 
   function wizardEditor() {
+    // обёртка для быстрого поиска
     var setupWizardForm = document.querySelector('.setup-wizard-form');
 
     // цвет куртки
@@ -90,6 +56,4 @@ function initApplicationSettingsDialog() {
 
   dialogControl();
   wizardEditor();
-}
-
-initApplicationSettingsDialog();
+})();

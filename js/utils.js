@@ -1,18 +1,34 @@
 'use strict';
 
-window.utils = {
-  KEY_CODES: {
-    'escape': 27,
-    'enter': 13
-  },
-  getRandomElement: function (arr) {
+window.utils = (function () {
+  var KEY_CODES = {
+    escape: 27,
+    enter: 13
+  };
+
+  function getRandomElement(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
-  },
-  getRandomElementExcept: function (arr, item) {
-    var currentValue = null;
-    do {
-      currentValue = this.getRandomElement(arr);
-    } while (currentValue === item);
-    return currentValue;
   }
-};
+
+  return {
+    isDeactivationEvent: function (evt) {
+      return evt.keyCode === KEY_CODES.escape;
+    },
+
+    isActivationEvent: function (evt) {
+      return evt.keyCode === KEY_CODES.enter || evt.type === 'click';
+    },
+
+    getRandomElement: getRandomElement,
+
+    getRandomElementExcept: function (arr, item) {
+      var currentValue = null;
+
+      do {
+        currentValue = getRandomElement(arr);
+      } while (currentValue === item);
+
+      return currentValue;
+    }
+  };
+})();
