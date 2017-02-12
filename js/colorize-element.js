@@ -6,12 +6,7 @@ window.colorizeElement = (function () {
 
     function colorizeHandler(evt) {
       if (window.utils.isActivationEvent(evt)) {
-        var newColor = null;
-
-        while (!newColor || newColor === currentColor) {
-          newColor = window.utils.getRandomElementExcept(colors, currentColor);
-        }
-
+        var newColor = window.utils.getRandomElementExcept(colors, currentColor);
         element.style[property] = currentColor = newColor;
       }
     }

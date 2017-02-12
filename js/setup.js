@@ -2,7 +2,7 @@
 
 (function () {
 
-  (function dialogControl() {
+  function dialogControl() {
     var setupOpen = document.querySelector('.setup-open');
 
     var openSetupDialogHadler = function (evt) {
@@ -13,9 +13,9 @@
 
     setupOpen.addEventListener('click', openSetupDialogHadler);
     setupOpen.addEventListener('keydown', openSetupDialogHadler);
-  })();
+  }
 
-  (function wizardEditor() {
+  function wizardEditor() {
     // обёртка для быстрого поиска
     var setupWizardForm = document.querySelector('.setup-wizard-form');
 
@@ -52,6 +52,8 @@
       '#e6e848'
     ];
     window.colorizeElement(wizardFireball, wizardFireballColors, 'backgroundColor');
-  })();
+  }
 
+  dialogControl();
+  wizardEditor();
 })();
