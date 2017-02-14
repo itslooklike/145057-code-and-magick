@@ -8,9 +8,19 @@ window.enableSetup = (function () {
   var setupClose = setup.querySelector('.setup-close');
   var submit = setup.querySelector('.setup-submit');
 
-  var openSetup = function () {
+  var openSetup = function (elem, cb) {
     setup.classList.remove('invisible');
     setupIcon.attributes['aria-pressed'].value = 'true';
+
+    setupClose.addEventListener('keydown', onKeyDown);
+    setupClose.addEventListener('click', onKeyDown);
+    submit.addEventListener('keydown', onKeyDown);
+    submit.addEventListener('click', onKeyDown);
+    window.addEventListener('keydown', escGlobalClose);
+
+    if (typeof cb === 'function') {
+      cb(elem);
+    }
   };
 
   var closeSetup = function () {
@@ -19,6 +29,8 @@ window.enableSetup = (function () {
 
     setupClose.removeEventListener('keydown', onKeyDown);
     setupClose.removeEventListener('click', onKeyDown);
+    submit.removeEventListener('keydown', onKeyDown);
+    submit.removeEventListener('click', onKeyDown);
     window.removeEventListener('keydown', escGlobalClose);
   };
 
@@ -35,14 +47,5 @@ window.enableSetup = (function () {
     }
   };
 
-  return function () {
-    openSetup();
-
-    // поместить листнеры в openSetup?
-    setupClose.addEventListener('keydown', onKeyDown);
-    setupClose.addEventListener('click', onKeyDown);
-    submit.addEventListener('keydown', onKeyDown);
-    submit.addEventListener('click', onKeyDown);
-    window.addEventListener('keydown', escGlobalClose);
-  };
+  return openSetup;
 })();

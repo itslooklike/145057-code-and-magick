@@ -5,9 +5,19 @@
   function dialogControl() {
     var setupOpen = document.querySelector('.setup-open');
 
+    var focusToElemet = function (elem) {
+      elem.focus();
+    };
+
     var openSetupDialogHadler = function (evt) {
       if (window.utils.isActivationEvent(evt)) {
-        window.enableSetup();
+        var cb = null;
+
+        if (evt.keyCode) {
+          cb = focusToElemet;
+        }
+
+        window.enableSetup(evt.target, cb);
       }
     };
 
