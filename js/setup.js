@@ -26,6 +26,11 @@
   }
 
   function wizardEditor() {
+
+    var colorizeProperty = function (element, property, color) {
+      element.style[property] = color;
+    };
+
     // обёртка для быстрого поиска
     var setupWizardForm = document.querySelector('.setup-wizard-form');
 
@@ -39,7 +44,7 @@
       'rgb(215, 210, 55)',
       'rgb(0, 0, 0)'
     ];
-    window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
+    window.colorizeElement(wizardCoat, wizardCoatColors, 'fill', colorizeProperty);
 
     // цвет глаз
     var wizardEyes = setupWizardForm.querySelector('#wizard-eyes');
@@ -50,7 +55,7 @@
       'yellow',
       'green'
     ];
-    window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
+    window.colorizeElement(wizardEyes, wizardEyesColors, 'fill', colorizeProperty);
 
     // цвет фаерболла
     var wizardFireball = setupWizardForm.querySelector('.setup-fireball-wrap');
@@ -61,7 +66,7 @@
       '#e848d5',
       '#e6e848'
     ];
-    window.colorizeElement(wizardFireball, wizardFireballColors, 'backgroundColor');
+    window.colorizeElement(wizardFireball, wizardFireballColors, 'backgroundColor', colorizeProperty);
   }
 
   dialogControl();

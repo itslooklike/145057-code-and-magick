@@ -1,13 +1,18 @@
 'use strict';
 
 window.colorizeElement = (function () {
-  return function (element, colors, property) {
-    var currentColor = colors[0];
+  var currentColor = null;
+
+  return function (element, colors, property, cb) {
+    currentColor = colors[0];
 
     function colorizeHandler(evt) {
       if (window.utils.isActivationEvent(evt)) {
-        var newColor = window.utils.getRandomElementExcept(colors, currentColor);
-        element.style[property] = currentColor = newColor;
+        currentColor = window.utils.getRandomElementExcept(colors, currentColor);
+
+        if (typeof cb === 'function') {
+          cb(element, property, currentColor);
+        }
       }
     }
 
