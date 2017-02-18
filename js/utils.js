@@ -29,6 +29,39 @@ window.utils = (function () {
       } while (currentValue === item);
 
       return currentValue;
+    },
+
+    idToClassNameTreeReplacer: function (elem) {
+      if (elem.id) {
+        elem.classList.add(elem.id);
+        elem.removeAttribute('id');
+      }
+
+      if (elem.childNodes) {
+        elem.childNodes.forEach(function (item) {
+          if (item.nodeName !== '#text') {
+            window.utils.idToClassNameTreeReplacer(item);
+          }
+        });
+      }
+    },
+
+    getRandomElementsInArray: function (arr, num) {
+      var newArr = [];
+
+      while (newArr.length < num) {
+        var element = getRandomElement(arr);
+
+        var flag = newArr.some(function (value) {
+          return value === element;
+        });
+
+        if (!flag) {
+          newArr.push(element);
+        }
+      }
+
+      return newArr;
     }
   };
 })();

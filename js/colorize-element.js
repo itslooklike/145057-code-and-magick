@@ -1,6 +1,6 @@
 'use strict';
 
-window.colorizeElement = function (element, colors, callback) {
+window.colorizeElement = function (element, colors, callback, callbackWizard) {
   var currentColor = colors[0];
 
   function colorizeHandler(evt) {
@@ -9,6 +9,10 @@ window.colorizeElement = function (element, colors, callback) {
 
       if (typeof callback === 'function') {
         callback(element, currentColor);
+      }
+
+      if (typeof callbackWizard === 'function') {
+        setTimeout(callbackWizard, 100);
       }
     }
   }

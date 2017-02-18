@@ -1,15 +1,15 @@
 'use strict';
 
 window.enableSetup = (function () {
-  var setupIcon = document.querySelector('.setup-open-icon');
+  var url = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
 
+  var setupIcon = document.querySelector('.setup-open-icon');
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
   var submit = setup.querySelector('.setup-submit');
 
   var closeSetupHandler;
-
-  var openSetup = function (elem, callback) {
+  var openSetup = function (elem, callback, callbackWizard) {
     setup.classList.remove('invisible');
     setupIcon.attributes['aria-pressed'].value = 'true';
     closeSetupHandler = closeSetupEvent.bind(closeSetupEvent, elem, callback);
@@ -19,6 +19,8 @@ window.enableSetup = (function () {
     submit.addEventListener('keydown', closeSetupHandler);
     submit.addEventListener('click', closeSetupHandler);
     window.addEventListener('keydown', escGlobalClose);
+
+    window.load(url, callbackWizard);
   };
 
   var closeSetup = function () {
