@@ -1,43 +1,45 @@
 'use strict';
 
 window.enableSetup = (function () {
-
   var setupIcon = document.querySelector('.setup-open-icon');
 
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
   var submit = setup.querySelector('.setup-submit');
 
-  var openSetup = function (elem, cb) {
+  var closeSetupHandler;
+
+  var openSetup = function (elem, callback) {
     setup.classList.remove('invisible');
     setupIcon.attributes['aria-pressed'].value = 'true';
+    closeSetupHandler = closeSetupEvent.bind(closeSetupEvent, elem, callback);
 
-    setupClose.addEventListener('keydown', onKeyDown);
-    setupClose.addEventListener('click', onKeyDown);
-    submit.addEventListener('keydown', onKeyDown);
-    submit.addEventListener('click', onKeyDown);
+    setupClose.addEventListener('keydown', closeSetupHandler);
+    setupClose.addEventListener('click', closeSetupHandler);
+    submit.addEventListener('keydown', closeSetupHandler);
+    submit.addEventListener('click', closeSetupHandler);
     window.addEventListener('keydown', escGlobalClose);
-
-    if (typeof cb === 'function') {
-      cb(elem);
-    }
   };
 
   var closeSetup = function () {
     setup.classList.add('invisible');
     setupIcon.attributes['aria-pressed'].value = 'false';
 
-    setupClose.removeEventListener('keydown', onKeyDown);
-    setupClose.removeEventListener('click', onKeyDown);
-    submit.removeEventListener('keydown', onKeyDown);
-    submit.removeEventListener('click', onKeyDown);
+    setupClose.removeEventListener('keydown', closeSetupHandler);
+    setupClose.removeEventListener('click', closeSetupHandler);
+    submit.removeEventListener('keydown', closeSetupHandler);
+    submit.removeEventListener('click', closeSetupHandler);
     window.removeEventListener('keydown', escGlobalClose);
   };
 
-  var onKeyDown = function (evt) {
+  var closeSetupEvent = function (elem, callback, evt) {
     if (window.utils.isActivationEvent(evt)) {
       evt.preventDefault();
       closeSetup();
+
+      if (typeof callback === 'function' && elem) {
+        callback(elem);
+      }
     }
   };
 
