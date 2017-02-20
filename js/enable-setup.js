@@ -1,31 +1,45 @@
 'use strict';
 
 window.enableSetup = (function () {
-
   var setupIcon = document.querySelector('.setup-open-icon');
 
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
   var submit = setup.querySelector('.setup-submit');
 
-  var openSetup = function () {
+  var closeSetupHandler;
+
+  var openSetup = function (elem, callback) {
     setup.classList.remove('invisible');
     setupIcon.attributes['aria-pressed'].value = 'true';
+    closeSetupHandler = closeSetupEvent.bind(closeSetupEvent, elem, callback);
+
+    setupClose.addEventListener('keydown', closeSetupHandler);
+    setupClose.addEventListener('click', closeSetupHandler);
+    submit.addEventListener('keydown', closeSetupHandler);
+    submit.addEventListener('click', closeSetupHandler);
+    window.addEventListener('keydown', escGlobalClose);
   };
 
   var closeSetup = function () {
     setup.classList.add('invisible');
     setupIcon.attributes['aria-pressed'].value = 'false';
 
-    setupClose.removeEventListener('keydown', onKeyDown);
-    setupClose.removeEventListener('click', onKeyDown);
+    setupClose.removeEventListener('keydown', closeSetupHandler);
+    setupClose.removeEventListener('click', closeSetupHandler);
+    submit.removeEventListener('keydown', closeSetupHandler);
+    submit.removeEventListener('click', closeSetupHandler);
     window.removeEventListener('keydown', escGlobalClose);
   };
 
-  var onKeyDown = function (evt) {
+  var closeSetupEvent = function (elem, callback, evt) {
     if (window.utils.isActivationEvent(evt)) {
       evt.preventDefault();
       closeSetup();
+
+      if (typeof callback === 'function' && elem) {
+        callback(elem);
+      }
     }
   };
 
@@ -35,14 +49,5 @@ window.enableSetup = (function () {
     }
   };
 
-  return function () {
-    openSetup();
-
-    // поместить листнеры в openSetup?
-    setupClose.addEventListener('keydown', onKeyDown);
-    setupClose.addEventListener('click', onKeyDown);
-    submit.addEventListener('keydown', onKeyDown);
-    submit.addEventListener('click', onKeyDown);
-    window.addEventListener('keydown', escGlobalClose);
-  };
+  return openSetup;
 })();

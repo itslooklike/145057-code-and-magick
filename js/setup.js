@@ -1,21 +1,34 @@
 'use strict';
 
 (function () {
-
   function dialogControl() {
     var setupOpen = document.querySelector('.setup-open');
 
-    var openSetupDialogHadler = function (evt) {
+    var focusToElement = function (elem) {
+      elem.focus();
+    };
+
+    var openSetupDialogHandler = function (evt) {
       if (window.utils.isActivationEvent(evt)) {
-        window.enableSetup();
+        var callback = null;
+
+        if (evt.keyCode) {
+          callback = focusToElement;
+        }
+
+        window.enableSetup(evt.target, callback);
       }
     };
 
-    setupOpen.addEventListener('click', openSetupDialogHadler);
-    setupOpen.addEventListener('keydown', openSetupDialogHadler);
+    setupOpen.addEventListener('click', openSetupDialogHandler);
+    setupOpen.addEventListener('keydown', openSetupDialogHandler);
   }
 
   function wizardEditor() {
+    var colorizeProperty = function (property, element, color) {
+      element.style[property] = color;
+    };
+
     // обёртка для быстрого поиска
     var setupWizardForm = document.querySelector('.setup-wizard-form');
 
@@ -29,7 +42,7 @@
       'rgb(215, 210, 55)',
       'rgb(0, 0, 0)'
     ];
-    window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
+    window.colorizeElement(wizardCoat, wizardCoatColors, colorizeProperty.bind(colorizeProperty, 'fill'));
 
     // цвет глаз
     var wizardEyes = setupWizardForm.querySelector('#wizard-eyes');
@@ -40,7 +53,7 @@
       'yellow',
       'green'
     ];
-    window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
+    window.colorizeElement(wizardEyes, wizardEyesColors, colorizeProperty.bind(colorizeProperty, 'fill'));
 
     // цвет фаерболла
     var wizardFireball = setupWizardForm.querySelector('.setup-fireball-wrap');
@@ -51,7 +64,7 @@
       '#e848d5',
       '#e6e848'
     ];
-    window.colorizeElement(wizardFireball, wizardFireballColors, 'backgroundColor');
+    window.colorizeElement(wizardFireball, wizardFireballColors, colorizeProperty.bind(colorizeProperty, 'backgroundColor'));
   }
 
   dialogControl();
