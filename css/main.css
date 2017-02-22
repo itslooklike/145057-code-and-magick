@@ -731,3 +731,14 @@ input[type=radio]:checked + .review-mark-label {
   font-size: 14px;
   color: #ffffff;
 }
+
+.setup-similar {
+  display: flex;
+}
+
+.setup-similar svg {
+  position: static;
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+}

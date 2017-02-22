@@ -8,7 +8,7 @@ window.colorizeElement = function (element, colors, callback) {
       currentColor = window.utils.getRandomElementExcept(colors, currentColor);
 
       if (typeof callback === 'function') {
-        callback(element, currentColor);
+        callback(element, currentColor, true);
       }
     }
   }
