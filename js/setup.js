@@ -5,13 +5,14 @@
   var allWizards = null;
   var smallWizardsShowTimeout = null;
 
-  var colorizeProperty = function (property, element, color, withTimeout) {
-    element.style[property] = color;
+  var onChangeColorAction = function(property, element, color) {
+    colorizeProperty(property, element, color);
+    clearTimeout(smallWizardsShowTimeout);
+    smallWizardsShowTimeout = setTimeout(smallWizardsRender, 500);
+  }
 
-    if (withTimeout) {
-      clearTimeout(smallWizardsShowTimeout);
-      smallWizardsShowTimeout = setTimeout(smallWizardsRender, 500); // уменьшил время для удобного тестирования
-    }
+  var colorizeProperty = function (property, element, color) {
+    element.style[property] = color;
   };
 
   function smallWizardsRender() {
@@ -73,7 +74,7 @@
       'rgb(215, 210, 55)',
       'rgb(0, 0, 0)'
     ];
-    window.colorizeElement(wizardCoat, wizardCoatColors, colorizeProperty.bind(colorizeProperty, 'fill'));
+    window.colorizeElement(wizardCoat, wizardCoatColors, onChangeColorAction.bind(null, 'fill'));
 
     var wizardEyes = setupWizardForm.querySelector('#wizard-eyes');
     var wizardEyesColors = [
@@ -83,7 +84,7 @@
       'yellow',
       'green'
     ];
-    window.colorizeElement(wizardEyes, wizardEyesColors, colorizeProperty.bind(colorizeProperty, 'fill'));
+    window.colorizeElement(wizardEyes, wizardEyesColors, onChangeColorAction.bind(null, 'fill'));
 
     var wizardFireball = setupWizardForm.querySelector('.setup-fireball-wrap');
     var wizardFireballColors = [
@@ -93,7 +94,7 @@
       '#e848d5',
       '#e6e848'
     ];
-    window.colorizeElement(wizardFireball, wizardFireballColors, colorizeProperty.bind(colorizeProperty, 'backgroundColor'));
+    window.colorizeElement(wizardFireball, wizardFireballColors, onChangeColorAction.bind(null, 'backgroundColor'));
   }
 
   dialogControl();
